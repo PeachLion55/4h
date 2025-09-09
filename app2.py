@@ -69,11 +69,11 @@ if st.session_state.current_page == 'trading_journal':
     # You can set a default user for testing purposes, or leave it as None
     # For example: st.session_state.logged_in_user = "test_user"
     
-    if st.session_state.logged_in_user is None:
-        st.warning("Please log in to access your Trading Journal.")
+    #if st.session_state.logged_in_user is None:
+        #st.warning("Please log in to access your Trading Journal.")
         # In a real multi-page app, you would redirect. Here, we'll just show a message.
-        st.info("Normally, you would be redirected to the account page to log in.")
-        st.stop() # Stop the rest of the script from running if not logged in
+        #st.info("Normally, you would be redirected to the account page to log in.")
+        #st.stop() # Stop the rest of the script from running if not logged in
 
     # --- REPLACEMENT FOR THE TITLE ---
     icon_path = os.path.join("icons", "trading_journal.png")

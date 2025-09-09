@@ -33,7 +33,8 @@ def save_user_data(user): pass
 # =========================================================
 if 'current_page' not in st.session_state:
     st.session_state.current_page = 'trading_journal'
-    st.session_state.logged_in_user = "Test123" # Simulating a logged-in user
+    # IMPORTANT: Set a username here to simulate being logged in for development
+    st.session_state.logged_in_user = "Test123" 
     st.session_state.trade_journal = pd.DataFrame(columns=[
         "TradeID", "Date", "Symbol", "Direction", "Outcome", "Lots", 
         "EntryPrice", "StopLoss", "FinalExit", "PnL", "RR", "Tags", 
@@ -46,50 +47,51 @@ if 'current_page' not in st.session_state:
 # TRADING JOURNAL PAGE
 # =========================================================
 if st.session_state.current_page == 'trading_journal':
-    #if st.session_state.logged_in_user is None:
-        #st.warning("Please log in to access your Trading Journal.")
-        #st.stop()
+    # This check ensures we don't proceed if the user is somehow not logged in
+    if not st.session_state.get('logged_in_user'):
+        st.warning("Please log in to access your Trading Journal.")
+        st.stop()
 
-    # --- NEW CUSTOM HEADER BLOCK ---
+    # --- CORRECTED CUSTOM HEADER BLOCK ---
     icon_path = "trading_journal.png"
     if os.path.exists(icon_path):
         icon_base64 = image_to_base64(icon_path)
-        username = st.session_state.logged_in_user
+        # We get the username directly from session state
+        username = st.session_state.get('logged_in_user', 'N/A')
         
         st.markdown(f"""
             <div style="
-                background-color: #1F2937; /* Dark background */
+                background-color: #1F2937;
                 padding: 20px 25px;
                 border-radius: 10px;
-                margin-bottom: 20px;
+                margin-bottom: 25px; /* Added more space below the header */
                 display: flex;
                 align-items: center;
-                box-shadow: 0 4px 15px -5px #00FFFF; /* Cyan glow effect */
-                border: 1px solid #00FFFF40; /* Subtle cyan border */
+                box-shadow: 0 0 15px #00FFFF60; /* Adjusted cyan glow */
+                border: 1px solid #00FFFF30; /* Softer border */
             ">
                 <!-- Icon -->
                 <img src="data:image/png;base64,{icon_base64}" style="width: 80px; height: 80px; margin-right: 25px;">
                 
                 <!-- Title and Subtitle -->
                 <div style="flex-grow: 1;">
-                    <h1 style="color: #00FFFF; margin: 0; font-size: 2.5em;">Trading Journal</h1>
-                    <p style="color: #9CA3AF; margin: 5px 0 0 0;">A streamlined interface for professional trade analysis.</p>
+                    <h1 style="color: #00FFFF; margin: 0; font-size: 2.5em; font-weight: 600;">Trading Journal</h1>
+                    <p style="color: #9CA3AF; margin: 5px 0 0 0; font-size: 1em;">A streamlined interface for professional trade analysis.</p>
                 </div>
                 
                 <!-- Logged In As Info -->
-                <div style="text-align: right; color: #9CA3AF;">
+                <div style="text-align: right; color: #9CA3AF; font-size: 0.9em;">
                     Logged in as:
-                    <div style="color: #FFFFFF; font-size: 1.1em; font-weight: bold;">{username}</div>
+                    <div style="color: #FFFFFF; font-size: 1.2em; font-weight: bold;">{username}</div>
                 </div>
             </div>
         """, unsafe_allow_html=True)
     else:
         # Fallback if the icon is not found
+        st.error("Header icon 'trading_journal.png' not found.")
         st.title("Trading Journal")
-        st.caption(f"A streamlined interface for professional trade analysis. | Logged in as: **{st.session_state.logged_in_user}**")
+        st.caption(f"Logged in as: **{st.session_state.logged_in_user}**")
 
-    # The "---" separator is no longer needed as the header has its own margin
-    # st.markdown("---")
 
     tab_entry, tab_playbook, tab_analytics = st.tabs(["**📝 Log New Trade**", "**📚 Trade Playbook**", "**📊 Analytics Dashboard**"])
 

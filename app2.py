@@ -48,9 +48,9 @@ if 'current_page' not in st.session_state:
 # =========================================================
 if st.session_state.current_page == 'trading_journal':
     # This check ensures we don't proceed if the user is somehow not logged in
-    if not st.session_state.get('logged_in_user'):
-        st.warning("Please log in to access your Trading Journal.")
-        st.stop()
+    #if not st.session_state.get('logged_in_user'):
+        #st.warning("Please log in to access your Trading Journal.")
+        #st.stop()
 
     # --- CORRECTED CUSTOM HEADER BLOCK ---
     icon_path = "trading_journal.png"

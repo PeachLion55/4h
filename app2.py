@@ -1,7 +1,7 @@
 # =========================================================
 # TRADING JOURNAL PAGE
 # =========================================================
-elif st.session_state.current_page == 'trading_journal':
+if st.session_state.current_page == 'trading_journal':
     if st.session_state.logged_in_user is None:
         st.warning("Please log in to access your Trading Journal.")
         st.session_state.current_page = 'account'
